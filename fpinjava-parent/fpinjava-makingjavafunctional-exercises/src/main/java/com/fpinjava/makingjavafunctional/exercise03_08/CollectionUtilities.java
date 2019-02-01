@@ -58,7 +58,11 @@ public class CollectionUtilities {
 
   public static <T, U> U foldRight(List<T> ts, U identity,
                                    Function<T, Function<U, U>> f) {
-    throw new RuntimeException("To be implemented");
+    if (ts.isEmpty()) {
+      return identity;
+    }
+
+    return f.apply(head(ts)).apply(foldRight(tail(ts), identity, f));
   }
 
   public static <T> List<T> append(List<T> list, T t) {

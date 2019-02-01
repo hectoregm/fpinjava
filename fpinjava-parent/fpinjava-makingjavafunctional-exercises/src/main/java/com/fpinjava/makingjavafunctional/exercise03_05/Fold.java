@@ -8,6 +8,11 @@ public class Fold {
 
   public static Integer fold(List<Integer> is, Integer identity,
                              Function<Integer, Function<Integer, Integer>> f) {
-    throw new RuntimeException("To be implemented");
+    Integer accum = identity;
+    for (Integer ivalue : is) {
+      accum = f.apply(accum).apply(ivalue);
+    };
+
+    return accum;
   }
 }
