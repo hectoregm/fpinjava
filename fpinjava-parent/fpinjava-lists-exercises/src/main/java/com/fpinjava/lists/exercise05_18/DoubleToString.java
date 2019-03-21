@@ -5,6 +5,6 @@ import com.fpinjava.lists.exercise05_16.List;
 public class DoubleToString {
 
   public static List<String> doubleToString(List<Double> list) {
-    throw new IllegalStateException("To be implemented");
+    return List.foldRight(list, List.list(), elem -> accum -> accum.cons(elem.toString()));
   }
 }

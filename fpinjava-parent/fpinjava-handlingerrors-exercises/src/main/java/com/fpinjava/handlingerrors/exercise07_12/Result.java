@@ -363,6 +363,12 @@ public abstract class Result<T> implements Serializable {
   }
 
   public static <A, B> Function<Result<A>, Result<B>> lift(final Function<A, B> f) {
-    throw new RuntimeException("To be implemented");
+    return x -> {
+      try {
+        return x.map(f);
+      } catch (Exception e) {
+        return failure(e);
+      }
+    };
   }
 }

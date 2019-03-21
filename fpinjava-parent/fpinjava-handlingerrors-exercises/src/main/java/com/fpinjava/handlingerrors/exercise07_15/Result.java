@@ -143,12 +143,12 @@ public abstract class Result<T> implements Serializable {
 
     @Override
     public <U> U foldLeft(U identity, Function<U, Function<T, U>> f) {
-      throw new IllegalStateException("To be implemented");
+      return identity;
     }
 
     @Override
     public <U> U foldRight(U identity, Function<T, Function<U, U>> f) {
-      throw new IllegalStateException("To be implemented");
+      return identity;
     }
   }
 
@@ -318,12 +318,12 @@ public abstract class Result<T> implements Serializable {
 
     @Override
     public <U> U foldLeft(U identity, Function<U, Function<T, U>> f) {
-      throw new IllegalStateException("To be implemented");
+      return f.apply(identity).apply(value);
     }
 
     @Override
     public <U> U foldRight(U identity, Function<T, Function<U, U>> f) {
-      throw new IllegalStateException("To be implemented");
+      return f.apply(value).apply(identity);
     }
   }
 

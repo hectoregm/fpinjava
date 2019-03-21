@@ -20,7 +20,7 @@ public abstract class List<A> {
   public abstract <B> B foldLeft(B identity, Function<B, Function<A, B>> f);
 
   public <B> List<B> map(Function<A, B> f) {
-    throw new IllegalStateException("To be implemented");
+    return this.isEmpty() ? list() : this.foldRight(list(), elem -> accum -> accum.cons(f.apply(elem)));
   }
 
   public <B> B foldRight(B identity, Function<A, Function<B, B>> f) {

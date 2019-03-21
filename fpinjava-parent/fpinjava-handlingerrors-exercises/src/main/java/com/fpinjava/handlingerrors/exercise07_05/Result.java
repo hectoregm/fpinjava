@@ -27,11 +27,11 @@ public abstract class Result<T> implements Serializable {
   }
 
   public Result<T> filter(Function<T, Boolean> p) {
-    throw new RuntimeException("To be implemented");
+    return filter(p, "Condition not matched");
   }
 
   public Result<T> filter(Function<T, Boolean> p, String message) {
-    throw new RuntimeException("To be implemented");
+    return this.flatMap(x -> p.apply(x) ? this : failure(message));
   }
 
   private static class Empty<T> extends Result<T> {

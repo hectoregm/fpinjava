@@ -5,6 +5,6 @@ import com.fpinjava.lists.exercise05_06.List;
 public class Product {
 
   public static Double product(List<Double> ints) {
-    throw new RuntimeException("To be implemented");
+    return ints.isEmpty() ? 1.0 : ints.head() * product(ints.tail());
   }
 }

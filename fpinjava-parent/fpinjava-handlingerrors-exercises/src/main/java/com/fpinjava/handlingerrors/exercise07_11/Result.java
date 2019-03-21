@@ -110,7 +110,7 @@ public abstract class Result<T> implements Serializable {
 
     @Override
     public Result<RuntimeException> forEachOrException(Effect<T> ef) {
-      throw new RuntimeException("To be implemented");
+      return empty();
     }
 
     @Override
@@ -185,7 +185,7 @@ public abstract class Result<T> implements Serializable {
 
     @Override
     public Result<RuntimeException> forEachOrException(Effect<T> ef) {
-      throw new RuntimeException("To be implemented");
+      return success(exception);
     }
   }
 
@@ -255,7 +255,8 @@ public abstract class Result<T> implements Serializable {
 
     @Override
     public Result<RuntimeException> forEachOrException(Effect<T> ef) {
-      throw new RuntimeException("To be implemented");
+      ef.apply(value);
+      return empty();
     }
   }
 
