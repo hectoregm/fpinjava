@@ -11,6 +11,7 @@ import com.fpinjava.common.Tuple3;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 import static com.fpinjava.common.TailCall.ret;
 import static com.fpinjava.common.TailCall.sus;
@@ -251,7 +252,24 @@ public abstract class List<A> {
   }
 
   public<B> Result<B> parFoldLeft(ExecutorService es, B identity, Function<B, Function<A, B>> f, Function<B, Function<B, B>> m) {
-    throw new IllegalStateException("To be implemented");
+    final int chunks = 1024;
+    final List<List<A>> dList = divide(chunks);
+
+    List<Future<B>> futures = dList.map(list -> es.submit(() -> list.foldLeft(identity, f)));
+
+    try {
+      List<B> results = futures.map((Future<B> future) -> {
+        try {
+          return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+          throw new RuntimeException(e);
+        }
+      });
+
+      return Result.success(results.foldLeft(identity, m));
+    } catch (Exception e) {
+      return Result.failure(e);
+    }
   }
 
   @SuppressWarnings("rawtypes")

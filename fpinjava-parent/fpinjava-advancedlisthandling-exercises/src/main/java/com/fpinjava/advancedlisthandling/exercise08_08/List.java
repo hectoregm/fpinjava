@@ -280,6 +280,10 @@ public abstract class List<A> {
   }
 
   public static <A, B, C> List<C> zipWith(List<A> list1, List<B> list2, Function<A, Function<B, C>> f) {
-    throw new IllegalStateException("To be implemented");
+    return zipWith_(List.list(), list1, list2, f).eval().reverse();
+  }
+
+  public static <A, B, C> TailCall<List<C>> zipWith_(List<C> acc, List<A> list1, List<B> list2, Function<A, Function<B, C>> f) {
+    return list1.isEmpty() || list2.isEmpty() ? ret(acc) : sus(() -> zipWith_(acc.cons(f.apply(list1.head()).apply(list2.head())), list1.tail(), list2.tail(), f));
   }
 }

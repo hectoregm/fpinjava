@@ -464,10 +464,13 @@ public abstract class List<A> {
   }
 
   public static <A> boolean hasSubList(List<A> list, List<A> sub) {
-    throw new IllegalStateException("To be implemented");
+    return sub.isEmpty() ? true : list.foldLeft(new Tuple<>(false, list), result -> elem -> {
+      List<A> clist = result._2;
+      return new Tuple<>(result._1 || List.startsWith(clist, sub), clist.tail());
+    })._1;
   }
 
   public static <A> Boolean startsWith(List<A> list, List<A> sub) {
-    throw new IllegalStateException("To be implemented");
+    return list.isEmpty() ? sub.isEmpty() : zipWith(list, sub, elemA -> elemB -> new Tuple(elemA, elemB)).foldLeft(true, result -> tuple -> result && tuple._1.equals(tuple._2));
   }
 }
