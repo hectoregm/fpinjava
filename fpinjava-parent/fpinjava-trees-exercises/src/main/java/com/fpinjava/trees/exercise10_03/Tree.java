@@ -104,6 +104,10 @@ public abstract class Tree<A extends Comparable<A>> {
 
   @SafeVarargs
   public static <A extends Comparable<A>> Tree<A> tree(A... as) {
-    throw new IllegalStateException("To be implemented");
+    return treeList(List.list(as));
+  }
+
+  public static <A extends Comparable<A>> Tree<A> treeList(List<A> list) {
+    return list.foldLeft(empty(), accum -> elem -> accum.insert(elem));
   }
 }

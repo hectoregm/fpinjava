@@ -59,12 +59,12 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public Result<A> max() {
-      throw new IllegalStateException("To be implemented");
+      return Result.empty();
     }
 
     @Override
     public Result<A> min() {
-      throw new IllegalStateException("To be implemented");
+      return Result.empty();
     }
 
     @Override
@@ -132,12 +132,12 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public Result<A> max() {
-      throw new IllegalStateException("To be implemented");
+      return right.max().orElse(() -> Result.success(value));
     }
 
     @Override
     public Result<A> min() {
-      throw new IllegalStateException("To be implemented");
+      return left.min().orElse(() -> Result.success(value));
     }
 
     @Override

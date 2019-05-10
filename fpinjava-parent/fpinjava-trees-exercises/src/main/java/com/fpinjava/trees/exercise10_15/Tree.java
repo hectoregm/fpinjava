@@ -230,7 +230,9 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public Tree<A> insert(A a) {
-      throw new IllegalStateException("To be implemented");
+      Tree<A> t = ins(a);
+      return t.height() > log2nlz(t.size()) * 20 ? balance(t) : t;
+
     }
 
     @Override

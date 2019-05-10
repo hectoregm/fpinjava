@@ -123,7 +123,7 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public List<A> toListInOrderRight() {
-      throw new IllegalStateException("To be implemented");
+      return List.list();
     }
 
     @Override
@@ -285,7 +285,7 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public List<A> toListInOrderRight() {
-      throw new IllegalStateException("To be implemented");
+       return foldInOrder(List.list(), left -> a -> right -> List.concat(right, List.list(a)).concat(left));
     }
 
     protected Tree<A> removeMerge(Tree<A> ta) {

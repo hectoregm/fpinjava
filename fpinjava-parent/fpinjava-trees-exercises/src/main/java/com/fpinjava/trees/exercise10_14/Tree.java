@@ -398,8 +398,38 @@ public abstract class Tree<A extends Comparable<A>> {
         || right.min().mapEmpty().flatMap(ignore -> left.max().map(lMax -> lt(lMax, a))).getOrElse(false);
   }
 
-  public static <A extends Comparable<A>> Tree<A> balance(Tree<A> tree) {
-    throw new IllegalStateException("To be implemented");
+  public static <A extends Comparable<A>> Tree<A> balance(Tree<A> tree) { return balance_(tree.toListInOrderRight().foldLeft(Tree.<A>empty(),
+          t -> a -> new T<>(empty(), a, t)));
+  }
+
+  public static <A> A unfold(A a, Function<A, Result<A>> f) { Result<A> ra = Result.success(a);
+    return unfold(new Tuple<>(ra, ra), f).eval()._2.getOrElse(a);
+  }
+
+  public static <A extends Comparable<A>> Tree<A> balance_(Tree<A> tree) {
+    return !tree.isEmpty() && tree.height() > log2nlz(tree.size())
+            ? Math.abs(tree.left().height() - tree.right().height()) > 1
+            ? balance_(balanceFirstLevel(tree))
+            : new T<>(balance_(tree.left()), tree.value(), balance_(tree.right()))
+            : tree;
+  }
+
+  private static <A extends Comparable<A>> Tree<A> balanceFirstLevel(Tree<A> tree) {
+    return unfold(tree, t -> isUnBalanced(t)
+            ? tree.right().height() > tree.left().height()
+              ? Result.success(t.rotateLeft())
+              : Result.success(t.rotateRight())
+            : Result.empty());
+  }
+
+  private static <A> TailCall<Tuple<Result<A>, Result<A>>> unfold(Tuple<Result<A>, Result<A>> a, Function<A, Result<A>> f) {
+    Result<A> x = a._2.flatMap(f::apply); return x.isSuccess()
+            ? TailCall.sus(() -> unfold(new Tuple<>(a._2, x), f)) : TailCall.ret(a);
+  }
+
+  static <A extends Comparable<A>> boolean isUnBalanced(Tree<A> tree) {
+    return Math.abs(tree.left().height() - tree.right().height())
+            > (tree.size() - 1) % 2;
   }
 
   public static int log2nlz(int n) {

@@ -315,6 +315,28 @@ public abstract class Tree<A extends Comparable<A>> {
   }
 
   public static <A extends Comparable<A>> Tree<A> tree(Tree<A> t1, A a, Tree<A> t2) {
-    throw new IllegalStateException("To be implemented");
+    return ordered(t1, a, t2)
+            ? new T<>(t1, a, t2)
+            : ordered(t2, a, t1)
+              ? new T<>(t2, a, t1)
+              : Tree.<A>empty().insert(a).merge(t1).merge(t2);
+  }
+
+  public static <A extends Comparable<A>> boolean lt(A first, A second) {
+    return first.compareTo(second) < 0;
+  }
+  public static <A extends Comparable<A>> boolean lt(A first, A second,
+                                                     A third) {
+    return lt(first, second) && lt(second, third);
+  }
+
+  public static <A extends Comparable<A>> boolean ordered(Tree<A> left,
+                                                          A a, Tree<A> right) {
+    return left.max().flatMap(lMax -> right.min().map(rMin ->
+            lt(lMax, a, rMin))).getOrElse(left.isEmpty() && right.isEmpty())
+            || left.min().mapEmpty().flatMap(ignore -> right.min().map(rMin ->
+            lt(a, rMin))).getOrElse(false)
+            || right.min().mapEmpty().flatMap(ignore -> left.max().map(lMax ->
+            lt(lMax, a))).getOrElse(false);
   }
 }

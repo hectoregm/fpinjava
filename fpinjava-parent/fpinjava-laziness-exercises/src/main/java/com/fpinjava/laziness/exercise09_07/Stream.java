@@ -105,7 +105,7 @@ abstract class Stream<A> {
 
     @Override
     public <B> B foldRight(Supplier<B> z, Function<A, Function<Supplier<B>, B>> f) {
-      throw new IllegalStateException("To be implemented");
+      return z.get();
     }
   }
 
@@ -168,7 +168,7 @@ abstract class Stream<A> {
 
     @Override
     public <B> B foldRight(Supplier<B> z, Function<A, Function<Supplier<B>, B>> f) {
-      throw new IllegalStateException("To be implemented");
+      return f.apply(head()).apply(() -> tail().foldRight(z, f));
     }
 
     public TailCall<Stream<A>> drop(Stream<A> acc, int n) {

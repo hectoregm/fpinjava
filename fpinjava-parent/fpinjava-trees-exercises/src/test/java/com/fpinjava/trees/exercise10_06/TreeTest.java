@@ -16,6 +16,7 @@ public class TreeTest {
   @Test
   public void testRemoveEquals() {
     Tree<Integer> tree = Tree.tree(4, 2, 1, 3, 6, 5, 7);
+    System.out.println(tree.toString());
     assertEquals("(T (T E 1 E) 2 (T E 3 (T (T E 5 E) 6 (T E 7 E))))", tree.remove(4).toString());
   }
 

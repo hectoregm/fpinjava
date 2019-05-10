@@ -156,12 +156,12 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     protected Tree<A> rotateLeft() {
-      throw new IllegalStateException("To be implemented");
+      return empty();
     }
 
     @Override
     protected Tree<A> rotateRight() {
-      throw new IllegalStateException("To be implemented");
+      return empty();
     }
 
     @Override
@@ -322,12 +322,12 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     protected Tree<A> rotateLeft() {
-      throw new IllegalStateException("To be implemented");
+      return right.isEmpty() ? this : new T<>(new T<>(left, value, right.left()), right.value(), right.right());
     }
 
     @Override
     protected Tree<A> rotateRight() {
-      throw new IllegalStateException("To be implemented");
+      return left.isEmpty() ? this : new T<>(left.left(), left.value(), new T<>(left.right(), value, right));
     }
 
     @Override

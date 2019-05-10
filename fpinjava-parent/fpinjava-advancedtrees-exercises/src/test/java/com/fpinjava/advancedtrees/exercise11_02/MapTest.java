@@ -15,7 +15,6 @@ public class MapTest {
    */
   int timeFactor = 500;
 
-  /*- Uncomment when needed
   @Test
   public void testInsertOrderedAscending7() {
     int limit = 7;

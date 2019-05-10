@@ -1,6 +1,10 @@
 package com.fpinjava.advancedtrees.exercise11_02;
 
 
+import com.fpinjava.common.Result;
+
+import static com.fpinjava.advancedtrees.exercise11_02.MapEntry.mapEntry;
+
 public class Map<K extends Comparable<K>, V> {
 
   protected final Tree<MapEntry<K, V>> delegate;
@@ -14,19 +18,23 @@ public class Map<K extends Comparable<K>, V> {
   }
 
   public Map<K, V> add(K key, V value) {
-    throw new IllegalStateException("To be implemented");
+    return new Map<>(delegate.insert(MapEntry.mapEntry(key, value)));
   }
 
   public boolean contains(K key) {
-    throw new IllegalStateException("To be implemented");
+    return delegate.member(MapEntry.mapEntry(key));
+  }
+
+  public Result<MapEntry<K, V>> get(K key) {
+    return delegate.get(mapEntry(key));
   }
 
   public Map<K, V> remove(K key) {
-    throw new IllegalStateException("To be implemented");
+    return new Map<>(delegate.delete(MapEntry.mapEntry(key)));
   }
 
   public boolean isEmpty() {
-    throw new IllegalStateException("To be implemented");
+    return delegate.isEmpty();
   }
 
   public static <K extends Comparable<K>, V> Map<K, V> empty() {

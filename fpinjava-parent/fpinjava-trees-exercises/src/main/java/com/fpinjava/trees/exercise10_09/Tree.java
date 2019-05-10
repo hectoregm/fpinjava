@@ -122,17 +122,17 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public <B> B foldInOrder(B identity, Function<B, Function<A, Function<B, B>>> f) {
-      throw new IllegalStateException("To be implemented");
+      return identity;
     }
 
     @Override
     public <B> B foldPreOrder(B identity, Function<A, Function<B, Function<B, B>>> f) {
-      throw new IllegalStateException("To be implemented");
+      return identity;
     }
 
     @Override
     public <B> B foldPostOrder(B identity, Function<B, Function<B, Function<A, B>>> f) {
-      throw new IllegalStateException("To be implemented");
+      return identity;
     }
 
     @Override
@@ -264,17 +264,17 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public <B> B foldInOrder(B identity, Function<B, Function<A, Function<B, B>>> f) {
-      throw new IllegalStateException("To be implemented");
+      return f.apply(left.foldInOrder(identity, f)).apply(value).apply(right.foldInOrder(identity, f));
     }
 
     @Override
     public <B> B foldPreOrder(B identity, Function<A, Function<B, Function<B, B>>> f) {
-      throw new IllegalStateException("To be implemented");
+      return f.apply(value).apply(left.foldPreOrder(identity, f)).apply(right.foldPreOrder(identity, f));
     }
 
     @Override
     public <B> B foldPostOrder(B identity, Function<B, Function<B, Function<A, B>>> f) {
-      throw new IllegalStateException("To be implemented");
+      return f.apply(left.foldPostOrder(identity, f)).apply(right.foldPostOrder(identity, f)).apply(value);
     }
 
     @Override

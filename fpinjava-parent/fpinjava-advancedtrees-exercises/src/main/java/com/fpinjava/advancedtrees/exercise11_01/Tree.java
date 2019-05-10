@@ -21,18 +21,24 @@ public abstract class Tree<A extends Comparable<A>> {
   protected abstract Tree<A> right();
   protected abstract Tree<A> left();
   protected abstract A value();
+  protected abstract Tree<A> ins(A value);
+
   public abstract int size();
   public abstract int height();
 
   protected static <A extends Comparable<A>> Tree<A> blacken(Tree<A> t) {
-    throw new IllegalStateException("To be implemented");
+    return t.isEmpty() ? empty() : new T<>(B, t.left(), t.value(), t.right());
   }
 
   public Tree<A> insert(A value) {
-    throw new IllegalStateException("To be implemented");
+    return blacken(ins(value));
   }
 
   private static class E<A extends Comparable<A>> extends Tree<A> {
+
+    protected Tree<A> ins(A value) {
+      return new T<>(R, empty(), value, empty());
+    }
 
     @Override
     protected boolean isE() {
@@ -107,8 +113,33 @@ public abstract class Tree<A extends Comparable<A>> {
       this.height = Math.max(left.height(), right.height()) + 1;
     }
 
+    protected Tree<A> ins(A value) {
+      if (value.compareTo(this.value) > 0) {
+        return balance(color, left, value, right.ins(value));
+      } else if (value.compareTo(this.value) < 0) {
+        return balance(color, left.ins(value), value, right);
+      } else {
+        return this;
+      }
+    }
+
     private Tree<A> balance(Color color, Tree<A> left, A value, Tree<A> right) {
-      throw new IllegalStateException("To be implemented");
+      if (color.isB() && left.isTR() && left.left().isTR()) {
+        return new T<>(R, new T<>(B, left.left().left(), left.left().value(), left.left().right()), left.value(), new T<>(B, left.right(), value, right));
+      }
+
+      if (color.isB() && left.isTR() && left.right().isTR()) {
+        return new T<>(R, new T<>(B, left.left(), left.value(), left.right().left()), left.right().value(), new T<>(B, left.right().right(), value, right));
+      }
+
+      if (color.isB() && right.isTR() && right.left().isTR()) {
+        return new T<>(R, new T<>(B, left, value, right.left().left()), right.left().value(), new T<>(B, right.left().right(), right.value(), right.right()));
+      }
+      if (color.isB() && right.isTR() && right.right().isTR()) {
+        return new T<>(R, new T<>(B, left, value, right.left()), right.value(), new T<>(B, right.right().left(), right.right().value(), right.right().right()));
+      }
+
+      return new T<>(color, left, value, right);
     }
 
     @Override

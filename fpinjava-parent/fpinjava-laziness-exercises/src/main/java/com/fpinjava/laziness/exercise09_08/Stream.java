@@ -35,7 +35,7 @@ abstract class Stream<A> {
   }
 
   public Stream<A> takeWhile(Function<A, Boolean> f) {
-    throw new IllegalStateException("To be implemented");
+    return foldRight(() -> Stream.empty(), elem -> lazyAccum -> f.apply(elem) ? cons(() -> elem, lazyAccum) : empty());
   }
 
   public boolean exists(Function<A, Boolean> p) {

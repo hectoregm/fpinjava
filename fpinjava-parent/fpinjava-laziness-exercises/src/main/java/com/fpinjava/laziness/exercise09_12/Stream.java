@@ -31,7 +31,7 @@ abstract class Stream<A> {
   public abstract <B> B foldRight(Supplier<B> z, Function<A, Function<Supplier<B>, B>> f);
 
   public Stream<A> append(Supplier<Stream<A>> s) {
-    throw new IllegalStateException("To be implemented");
+    return foldRight(s, a -> b -> cons(() -> a, b));
   }
 
   public Stream<A> filter(Function<A, Boolean> p) {

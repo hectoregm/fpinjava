@@ -32,7 +32,7 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public Tree<A> insert(A insertedValue) {
-      throw new IllegalStateException("To be implemented");
+      return new T<>(empty(), insertedValue, empty());
     }
 
     @Override
@@ -70,7 +70,7 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public Tree<A> insert(A insertedValue) {
-      throw new IllegalStateException("To be implemented");
+      return insertedValue.compareTo(value()) > 0 ? new T<>(left, value, right.insert(insertedValue)) : insertedValue.compareTo(value) < 0 ? new T<>(left.insert(insertedValue), value, right) : new T<>(left, insertedValue, right);
     }
 
     @Override

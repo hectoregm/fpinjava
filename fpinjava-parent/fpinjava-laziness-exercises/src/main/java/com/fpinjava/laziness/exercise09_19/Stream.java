@@ -32,7 +32,11 @@ abstract class Stream<A> {
   public abstract <B> B foldRight(Supplier<B> z, Function<A, Function<Supplier<B>, B>> f);
 
   public Stream<A> filter(Function<A, Boolean> p) {
-    throw new IllegalStateException("To be implemented");
+    Stream<A> stream = this.dropWhile(x -> !p.apply(x));
+
+    return stream.isEmpty()
+            ? stream
+            : cons(() -> stream.head()._1, () -> stream.tail().filter(p));
   }
 
   public Stream<A> takeViaUnfold(int n) {

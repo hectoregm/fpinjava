@@ -29,7 +29,7 @@ abstract class Stream<A> {
   public abstract Stream<A> takeWhile(Function<A, Boolean> f);
 
   public boolean exists(Function<A, Boolean> p) {
-    throw new IllegalStateException("To be implemented");
+    return !dropWhile(a -> !p.apply(a)).isEmpty();
   }
 
   public Stream<A> dropWhile(Function<A, Boolean> f) {

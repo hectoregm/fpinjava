@@ -16,6 +16,7 @@ public class MapTest {
     List<String> expected = list.map(NumbersToEnglish.convertUS);
     Map<Integer, String> map = list.foldRight(Map.<Integer, String>empty(), i -> m -> m.add(i, NumbersToEnglish.convertUS.apply(i)));
     List<String> list2 = map.values();
+    System.out.println(list2);
     assertTrue(expected.equals(list2));
   }
 }

@@ -31,7 +31,7 @@ abstract class Stream<A> {
   public abstract <B> B foldRight(Supplier<B> z, Function<A, Function<Supplier<B>, B>> f);
 
   public <B> Stream<B> flatMap(Function<A, Stream<B>> f) {
-    throw new IllegalStateException("To be implemented");
+    return foldRight(Stream::empty, a -> b -> f.apply(a).append(b));
   }
 
   public Stream<A> append(Supplier<Stream<A>> s) {

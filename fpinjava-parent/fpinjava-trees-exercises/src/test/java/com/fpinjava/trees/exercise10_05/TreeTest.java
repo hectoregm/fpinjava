@@ -10,6 +10,7 @@ public class TreeTest {
   @Test
   public void testMax() throws Exception {
     Tree<Integer> tree = Tree.tree(4, 2, 6, 1, 3, 7, 5);
+    System.out.println(tree.max());
     assertTrue(tree.max().map(i -> i.equals(7)).getOrElse(false));
   }
 

@@ -228,6 +228,6 @@ abstract class Stream<A> {
   }
 
   public static <A> Stream<A> repeat(A a) {
-    throw new IllegalStateException("To be implemented");
+    return cons(() -> a, () -> repeat(a));
   }
 }

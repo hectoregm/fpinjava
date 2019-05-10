@@ -232,14 +232,14 @@ abstract class Stream<A> {
   }
 
   public static <A> Stream<A> iterate(A seed, Function<A, A> f) {
-    throw new IllegalStateException("To be implemented");
+    return cons(() -> seed, () -> iterate(f.apply(seed), f));
   }
 
   public static <A> Stream<A> repeat(A a) {
-    throw new IllegalStateException("To be implemented");
+    return iterate(a, elem -> elem);
   }
 
   public static Stream<Integer> from(int i) {
-    throw new IllegalStateException("To be implemented");
+    return iterate(i, num -> num + 1);
   }
 }

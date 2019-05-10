@@ -72,7 +72,7 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public Tree<A> remove(A a) {
-      throw new IllegalStateException("To be implemented");
+      return empty();
     }
 
     @Override
@@ -155,7 +155,9 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public Tree<A> remove(A a) {
-      throw new IllegalStateException("To be implemented");
+      return a.compareTo(this.value) < 0
+              ? new T<>(left.remove(a), value, right)
+              : a.compareTo(this.value) > 0 ? new T<>(left, value, right.remove(a)) : merge(left, right);
     }
 
     @Override
@@ -172,6 +174,10 @@ public abstract class Tree<A extends Comparable<A>> {
   @SuppressWarnings("unchecked")
   public static <A extends Comparable<A>> Tree<A> empty() {
     return EMPTY;
+  }
+
+  private static <A extends Comparable<A>> Tree<A> merge(Tree<A> left, Tree<A> right) {
+    return right.isEmpty() ? (left.isEmpty() ? empty() : left) : (left.isEmpty() ? right : new T<>(left.left(), left.value(), merge(left.right(), right)));
   }
 
   public static <A extends Comparable<A>> Tree<A> tree(List<A> list) {

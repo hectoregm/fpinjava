@@ -303,7 +303,7 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public <B extends Comparable<B>> Tree<B> map(Function<A, B> f) {
-      throw new IllegalStateException("To be implemented");
+      return foldInOrder(empty(), left -> root -> right -> Tree.tree(left, f.apply(root), right));
     }
 
     @Override

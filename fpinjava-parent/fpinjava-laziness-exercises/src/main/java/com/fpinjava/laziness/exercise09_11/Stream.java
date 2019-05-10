@@ -31,7 +31,7 @@ abstract class Stream<A> {
   public abstract <B> B foldRight(Supplier<B> z, Function<A, Function<Supplier<B>, B>> f);
 
   public Stream<A> filter(Function<A, Boolean> p) {
-    throw new IllegalStateException("To be implemented");
+    return foldRight(Stream::empty, elem -> accum -> p.apply(elem) ? cons(() -> elem, accum) : accum.get());
   }
 
   public <B> Stream<B> map(Function<A, B> f) {

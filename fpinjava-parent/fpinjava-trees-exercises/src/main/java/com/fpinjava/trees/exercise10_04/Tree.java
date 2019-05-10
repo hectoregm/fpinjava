@@ -46,12 +46,12 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public int size() {
-      throw new IllegalStateException("To be implemented");
+      return 0;
     }
 
     @Override
     public int height() {
-      throw new IllegalStateException("To be implemented");
+      return -1;
     }
 
     @Override
@@ -105,12 +105,12 @@ public abstract class Tree<A extends Comparable<A>> {
 
     @Override
     public int size() {
-      throw new IllegalStateException("To be implemented");
+      return left.size() + right.size() + 1;
     }
 
     @Override
     public int height() {
-      throw new IllegalStateException("To be implemented");
+      return 1 + Math.max(left.height(), right.height());
     }
 
     @Override
