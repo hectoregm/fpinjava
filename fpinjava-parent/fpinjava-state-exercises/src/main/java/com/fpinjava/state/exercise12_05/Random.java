@@ -18,7 +18,12 @@ public interface Random<A> extends Function<RNG, Tuple<A, RNG>> {
   }
 
   static <A, B, C> Random<C> map2(Random<A> ra, Random<B> rb, Function<A, Function<B, C>> f) {
-    throw new IllegalStateException("To be implemented");
+    return rng -> {
+      Tuple<A, RNG> tx = ra.apply(rng);
+      Tuple<B, RNG> ty = rb.apply(tx._2);
+
+      return new Tuple<>(f.apply(tx._1).apply(ty._1), ty._2);
+    };
   }
 
   Random<Integer> intRnd = RNG::nextInt;
@@ -27,6 +32,6 @@ public interface Random<A> extends Function<RNG, Tuple<A, RNG>> {
 
   Random<Double> doubleRnd = map(intRnd, x -> x / (((double) Integer.MAX_VALUE) + 1.0));
 
-  Random<Tuple<Integer, Integer>> intPairRnd = null; // To be implemented
+  Random<Tuple<Integer, Integer>> intPairRnd = map2(intRnd, intRnd, x -> y -> new Tuple<>(x, y)); // To be implemented
 
 }

@@ -2,6 +2,7 @@ package com.fpinjava.state.exercise12_02;
 
 
 import com.fpinjava.common.List;
+import com.fpinjava.common.Result;
 import com.fpinjava.common.Tuple;
 
 public class Generator {
@@ -16,6 +17,13 @@ public class Generator {
   }
 
   public static Tuple<List<Integer>, RNG> integers(RNG rng, int length) {
-    throw new IllegalStateException("To be implemented");
+    List<Integer> range = List.range(0, length);
+
+    List<Tuple<Integer, RNG>> list = range.foldLeft(List.list(), accum -> elem -> {
+      RNG randomGenerator = accum.headOption().map(t -> t._2).getOrElse(rng);
+      return accum.cons(randomGenerator.nextInt());
+    });
+
+    return new Tuple<>(list.map(t -> t._1), list.headOption().map(t -> t._2).getOrElse(rng));
   }
 }

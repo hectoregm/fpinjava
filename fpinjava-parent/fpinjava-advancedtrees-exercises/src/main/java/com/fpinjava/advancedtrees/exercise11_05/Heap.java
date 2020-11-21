@@ -23,12 +23,13 @@ public abstract class Heap<A extends Comparable<A>> {
   public abstract boolean isEmpty();
 
   public Heap<A> add(A element) {
-    throw new IllegalStateException("To be implemented");
+    return merge(this, heap(element));
   }
 
   public static class Empty<A extends Comparable<A>> extends Heap<A> {
 
-    private Empty() {}
+    private Empty() {
+    }
 
     @Override
     protected int rank() {
@@ -111,5 +112,27 @@ public abstract class Heap<A extends Comparable<A>> {
   @SuppressWarnings("unchecked")
   public static <A extends Comparable<A>> Heap<A> empty() {
     return EMPTY;
+  }
+
+  public static <A extends Comparable<A>> Heap<A> heap(A element) {
+    return new H<>(1, 1, empty(), element, empty());
+  }
+
+  public static <A extends Comparable<A>> Heap<A> merge(Heap<A> first, Heap<A> second) {
+    return first.head().flatMap(
+      fh -> second.head().flatMap(
+        sh -> fh.compareTo(sh) <= 0
+          ? first.left().flatMap(
+            fl -> first.right().map(
+              fr -> heap(fh, fl, merge(fr, second))))
+          : second.left().flatMap(
+            sl -> second.right().map(
+              sr -> heap(sh, sl, merge(first, sr)))))).getOrElse(first.isEmpty() ? second : first);
+  }
+
+  protected static <A extends Comparable<A>> Heap<A> heap(A head, Heap<A> first, Heap<A> second) {
+    return first.rank() >= second.rank()
+             ? new H<>(first.length() + second.length() + 1, second.rank() + 1, first, head, second)
+             : new H<>(first.length() + second.length() + 1, first.rank() + 1, second, head, first);
   }
 }

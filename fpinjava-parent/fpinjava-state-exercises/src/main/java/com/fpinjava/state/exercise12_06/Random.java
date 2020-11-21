@@ -27,8 +27,9 @@ public interface Random<A> extends Function<RNG, Tuple<A, RNG>> {
   }
 
   static <A> Random<List<A>> sequence(List<Random<A>> rs) {
-    throw new IllegalStateException("To be implemented");
+    return rs.foldLeft(unit(List.list()), acc -> r -> map2(r, acc, x -> y -> y.cons(x)));
   }
+
 
   Random<Integer> intRnd = RNG::nextInt;
 
@@ -38,5 +39,5 @@ public interface Random<A> extends Function<RNG, Tuple<A, RNG>> {
 
   Random<Tuple<Integer, Integer>> intPairRnd = map2(intRnd, intRnd, x -> y -> new Tuple<>(x, y));
 
-  Function<Integer, Random<List<Integer>>> integersRnd = null; // to be implemented
+  Function<Integer, Random<List<Integer>>> integersRnd = num -> Random.sequence(List.fill(num, () -> intRnd)); // to be implemented
 }

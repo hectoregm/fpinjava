@@ -89,7 +89,7 @@ public abstract class Heap<A extends Comparable<A>> {
 
     @Override
     public Result<Heap<A>> tail() {
-      throw new IllegalStateException("To be implemented");
+      return Result.success(Heap.merge(left, right));
     }
 
     @Override

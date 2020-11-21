@@ -21,6 +21,6 @@ public interface Random<A> extends Function<RNG, Tuple<A, RNG>> {
 
   Random<Boolean> booleanRnd = Random.map(intRnd, x -> x % 2 == 0);
 
-  Random<Double> doubleRnd = null; // To be implemented
+  Random<Double> doubleRnd = Random.map(intRnd, x -> x / (((double) Integer.MAX_VALUE) + 1.0));
 
 }

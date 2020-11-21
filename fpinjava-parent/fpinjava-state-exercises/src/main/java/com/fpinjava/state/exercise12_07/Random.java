@@ -35,7 +35,10 @@ public interface Random<A> extends Function<RNG, Tuple<A, RNG>> {
   }
 
   static <A, B> Random<B> flatMap(Random<A> s, Function<A, Random<B>> f) {
-    throw new IllegalStateException("To be implemented");
+    return rng -> {
+      Tuple<A, RNG> t = s.apply(rng);
+      return f.apply(t._1).apply(t._2);
+    };
   }
 
   Random<Integer> intRnd = RNG::nextInt;
@@ -48,6 +51,6 @@ public interface Random<A> extends Function<RNG, Tuple<A, RNG>> {
 
   Function<Integer, Random<List<Integer>>> integersRnd = length -> sequence(List.fill(length, () -> intRnd));
 
-  Random<Integer> notMultipleOfFiveRnd = null; // To be implemented
+  Random<Integer> notMultipleOfFiveRnd = flatMap(intRnd, i -> i % 5 != 0 ? unit(i) : Random.notMultipleOfFiveRnd);
 
 }

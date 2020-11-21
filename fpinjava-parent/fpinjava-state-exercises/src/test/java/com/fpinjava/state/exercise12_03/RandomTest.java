@@ -18,6 +18,7 @@ public class RandomTest {
     Tuple<Boolean, RNG> result1 = Random.booleanRnd.apply(rng);
     assertTrue(result1._1);
     Tuple<Boolean, RNG> result2 = Random.booleanRnd.apply(result1._2);
+    System.out.println("DEBUG: " + result2._1);
     assertTrue(result2._1);
     Tuple<Boolean, RNG> result3 = Random.booleanRnd.apply(result2._2);
     assertTrue(result3._1);

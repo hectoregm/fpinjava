@@ -10,6 +10,8 @@ public class Generator {
   }
 
   public static Tuple<Integer, RNG> integer(RNG rng, int limit) {
-    throw new IllegalStateException("To be implemented");
+    Tuple<Integer, RNG> result = rng.nextInt();
+
+    return new Tuple<>(Math.abs(result._1 % limit), result._2);
   }
 }

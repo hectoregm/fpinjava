@@ -33,7 +33,7 @@ public abstract class Heap<A extends Comparable<A>> {
 
     @Override
     public Result<A> get(int index) {
-      throw new IllegalStateException("To be implemented");
+      return Result.failure(new NoSuchElementException("Index out of range"));
     }
 
     @Override
@@ -90,7 +90,7 @@ public abstract class Heap<A extends Comparable<A>> {
 
     @Override
     public Result<A> get(int index) {
-      throw new IllegalStateException("To be implemented");
+      return index == 0 ? this.head() : this.tail().flatMap(tl -> tl.get(index - 1));
     }
 
     @Override

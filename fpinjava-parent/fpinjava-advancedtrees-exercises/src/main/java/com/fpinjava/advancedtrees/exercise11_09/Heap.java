@@ -86,7 +86,7 @@ public abstract class Heap<A> {
 
     @Override
     public Heap<A> insert(A a) {
-      throw new IllegalStateException("To be implemented");
+      return heap(a, this, this);
     }
 
     @Override
@@ -166,7 +166,10 @@ public abstract class Heap<A> {
 
     @Override
     public Heap<A> insert(A a) {
-      throw new IllegalStateException("To be implemented");
+      int comp = compare(head, a, comparator);
+      return heap(comp < 0
+                   ? head
+                   : a, left, right.insert(comp >= 0 ? head : a));
     }
 
     @Override
